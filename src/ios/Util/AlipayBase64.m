@@ -22,7 +22,7 @@
 
 #if defined(XYSSL_BASE64_C)
 
-#include "base64.h"
+#include "AlipayBase64.h"
 
 static const unsigned char base64_enc_map[64] =
 {
@@ -179,7 +179,7 @@ int base64_decode( unsigned char *dst, int *dlen,
     return( 0 );
 }
 
-@implementation Base64
+@implementation AlipayBase64
 
 + (NSData *)decodeString:(NSString *)string {
 	

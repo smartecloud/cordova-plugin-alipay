@@ -15,29 +15,41 @@ import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
 import cordova.plugin.alipay.utils.OrderInfoUtil2_0;
-
-import static android.R.id.message;
 
 public class AliPay extends CordovaPlugin {
 
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 0x123;
     private static String TAG = "AliPay";
+    private CallbackContext callbackContext;
 
     /*参数暂时写在代码中，方便调试*/
-    /** 支付宝支付业务：入参app_id */
+    /**
+     * 支付宝支付业务：入参app_id
+     */
     // public static final String APPID = "2017032706431886";//会引擎
     public static final String APPID = "2017072207848552";//销售会
 
-    /** 支付宝账户登录授权业务：入参pid值 */
+    /**
+     * 支付宝账户登录授权业务：入参pid值
+     */
     public static final String PID = "2088911122813842";
-    /** 支付宝账户登录授权业务：入参target_id值 */
-    public static final String TARGET_ID = "20141225xxxx";
-    public static final String RSA2_PRIVATE = "MIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCyO/SYt3rCt9JEOnuavxaNc5vJOvCS+f8BBeGR/DNy5lrx1Ueg1TFTjYXJXsmB6sy5vhzMFckXYMwxL7E4CUkUjXPWHKgUQMFJtM7BI9BZrr+x2yQsbwCaxSpBxCGscRsJBKYsBaZkocnkZSfrYNwtbCjYdY+YI7TpLwz4z9BFkO9WkOTxTg8BLkTqbJLsbSxCOv8lD3GOeLfWgqd+nM5tXv9WKS4NGSuiMsQe0Jpdh7BATcKuNKbuFKjGYS533HD4JJls8XEtkelgLWwtzzjMNCVE0cfuh+sP9xwbkhQd8Van175pzItDFYRS2pR0ry8b9gkfmGt3eKB91Q4NivsXAgMBAAECggEAQnFFUnT7p4D9OoAOufZIQvz480AslK3rWQdHOrOovkmPV52pcRRoqfwVBqd2OR89qHRtqcrpRvTHygI8b2ZOvwGoUAYoxjwJkh97/9YJApW5UmUeDA5pTEj54sBpyS305Ry9kaWdjOAfMixfgEiAa9JpO6A/oniVJWRr0okt2/B3Wfg++XR3YdQgRcikuyX+qckyI37VhkWn8FoFtD1y2e0cwVKeyzVDrLkNVCiP0cW3rGScOboZzVFrVMtazbCgsgMsnOehP/qEbR4bSQkjeBSyd/ftEm3Wy1WhEE5k1EasnnO6z/1v4fMkpGt1IQGFP6AgMwA/cDITCuzAxta8mQKBgQDdp/TvMuRZXR9VWPYAFLXZOsiZ8G1Ma1erTRSA6IBzmMraK71al7TECSb+j57VtENsMlt/MpPQCbBzPaY/9mDSJgohOTsACpbT8G/qwJObTUT6J+wSLHT8dFhdV0UJgRDFRz5d2VHaHPNwqKufAB/VciMUdRMyf9m27NocaVesywKBgQDN2ai5K7hMx43cV1RTEp5bJve2xf3Ezq5ZZX/8Cnu39ZNqPu8kJ7xJ/Fp+/rfXOb+6rijUQA39Ai3x1z+yxyZdBQJfeNDV7EELXCktplC0AFeEl5tVT3NfrfFKYgS0/xuYJSan6lRnqMSnpYep+VDNLT3JKHeYjCMzaIOzqliNZQJ/I3/CuoxsBePkIMcenuSyOxgvCHh5CMQoRkcSAZM6/0h5NHfM27VwPfU5SYu25IL6SVnHTZfMFIV4vPwipBvRZdaxyKBh0p/fiBH52p79BOJbKbU7Ga4FDmmTvV88r0j8ZpwCYQVtFoGMe36H/e8HKigddilJ6cyQEbvdMq+sWwKBgFN7G/PMiTeKDjv3ppjyCgqJaRhUfy/badWTVi4OylG2ZAxIbY9KFhAjKUgrYL8GCn1Yt/Ir8ABVa/CSDKEiJqq+p1G0m2zGHTLQM1ryAfSd1uBM44/bYrzAvAQgcCw+8R/ooR6j54sKZIZgmP4Tv/MVj+MOaEITQwtMLW0lfjgJAoGAJQUnnipAd4j6w9wN4z5T2822LpP9vZvCJkLm8IR6Jl7KcrGRkHw+z3VRBa54wyGxxhTRv50irqbcoqtf/ovL9dChoqIJTChf8RZUiz+ZZYiabuwg6M5BVC9O0JAJds1VnStU3gC6gvNpDwaAvHVJoHoxB0DNbT1dyBKT7In+5KA=";
+    /**
+     * 支付宝账户登录授权业务：入参target_id值
+     */
+    public static final String TARGET_ID = "20170723xxxx";
+    public static final String RSA2_PRIVATE =
+            "MIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCyO/SYt3rCt9JEOnuavxaNc5vJOvCS+f8BBeGR" +
+                    "/DNy5lrx1Ueg1TFTjYXJXsmB6sy5vhzMFckXYMwxL7E4CUkUjXPWHKgUQMFJtM7BI9BZrr" +
+                    "+x2yQsbwCaxSpBxCGscRsJBKYsBaZkocnkZSfrYNwtbCjYdY" +
+                    "+YI7TpLwz4z9BFkO9WkOTxTg8BLkTqbJLsbSxCOv8lD3GOeLfWgqd" +
+                    "+nM5tXv9WKS4NGSuiMsQe0Jpdh7BATcKuNKbuFKjGYS533HD4JJls8XEtkelgLWwtzzjMNCVE0cfuh" +
+                    "+sP9xwbkhQd8Van175pzItDFYRS2pR0ry8b9gkfmGt3eKB91Q4NivsXAgMBAAECggEAQnFFUnT7p4D9OoAOufZIQvz480AslK3rWQdHOrOovkmPV52pcRRoqfwVBqd2OR89qHRtqcrpRvTHygI8b2ZOvwGoUAYoxjwJkh97/9YJApW5UmUeDA5pTEj54sBpyS305Ry9kaWdjOAfMixfgEiAa9JpO6A/oniVJWRr0okt2/B3Wfg++XR3YdQgRcikuyX+qckyI37VhkWn8FoFtD1y2e0cwVKeyzVDrLkNVCiP0cW3rGScOboZzVFrVMtazbCgsgMsnOehP/qEbR4bSQkjeBSyd/ftEm3Wy1WhEE5k1EasnnO6z/1v4fMkpGt1IQGFP6AgMwA/cDITCuzAxta8mQKBgQDdp/TvMuRZXR9VWPYAFLXZOsiZ8G1Ma1erTRSA6IBzmMraK71al7TECSb+j57VtENsMlt/MpPQCbBzPaY/9mDSJgohOTsACpbT8G/qwJObTUT6J+wSLHT8dFhdV0UJgRDFRz5d2VHaHPNwqKufAB/VciMUdRMyf9m27NocaVesywKBgQDN2ai5K7hMx43cV1RTEp5bJve2xf3Ezq5ZZX/8Cnu39ZNqPu8kJ7xJ/Fp+/rfXOb+6rijUQA39Ai3x1z+yxyZdBQJfeNDV7EELXCktplC0AFeEl5tVT3NfrfFKYgS0/xuYJSan6lRnqMSnpYep+VDNLT3JKHeYjCMzaIOzqliNZQJ/I3/CuoxsBePkIMcenuSyOxgvCHh5CMQoRkcSAZM6/0h5NHfM27VwPfU5SYu25IL6SVnHTZfMFIV4vPwipBvRZdaxyKBh0p/fiBH52p79BOJbKbU7Ga4FDmmTvV88r0j8ZpwCYQVtFoGMe36H/e8HKigddilJ6cyQEbvdMq+sWwKBgFN7G/PMiTeKDjv3ppjyCgqJaRhUfy/badWTVi4OylG2ZAxIbY9KFhAjKUgrYL8GCn1Yt/Ir8ABVa/CSDKEiJqq+p1G0m2zGHTLQM1ryAfSd1uBM44/bYrzAvAQgcCw+8R/ooR6j54sKZIZgmP4Tv/MVj+MOaEITQwtMLW0lfjgJAoGAJQUnnipAd4j6w9wN4z5T2822LpP9vZvCJkLm8IR6Jl7KcrGRkHw+z3VRBa54wyGxxhTRv50irqbcoqtf/ovL9dChoqIJTChf8RZUiz+ZZYiabuwg6M5BVC9O0JAJds1VnStU3gC6gvNpDwaAvHVJoHoxB0DNbT1dyBKT7In+5KA=";
     public static final String RSA_PRIVATE = "";
 
     private Handler mHandler = new Handler() {
@@ -74,19 +86,19 @@ public class AliPay extends CordovaPlugin {
                     AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
                     String resultStatus = authResult.getResultStatus();
 
+//                    sendUpdate(callbackContext,authResult.toJson(),true,PluginResult.Status.OK);
+
                     // 判断resultStatus 为“9000”且result_code
                     // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
                     if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
                         // 获取alipay_open_id，调支付时作为参数extern_token 的value
                         // 传入，则支付账户为该授权账户
-                        Toast.makeText(cordova.getActivity(),
-                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
-                                .show();
+                        // Toast.makeText(cordova.getActivity(),"授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(cordova.getActivity(),"授权成功\n", Toast.LENGTH_SHORT).show();
+
                     } else {
                         // 其他状态值则为授权失败
-                        Toast.makeText(cordova.getActivity(),
-                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(cordova.getActivity(),"授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
                     }
                     break;
 
@@ -100,6 +112,9 @@ public class AliPay extends CordovaPlugin {
     public boolean execute(String action, JSONArray args,
                            final CallbackContext callbackContext) throws JSONException {
         PluginResult result = null;
+
+        this.callbackContext = callbackContext;
+
         if ("pay".equals(action)) {
 
             //订单信息在服务端签名后返回
@@ -145,6 +160,7 @@ public class AliPay extends CordovaPlugin {
             return true;
         } else if ("auth".equals(action)) {
             this.auth(args, callbackContext);
+
             return true;
         } else {
             callbackContext.error("no such method:" + action);
@@ -153,11 +169,11 @@ public class AliPay extends CordovaPlugin {
     }
 
 
-    public void auth(JSONArray args, final CallbackContext callback) {
+    public void auth(JSONArray args, final CallbackContext callbackContext) {
         LOG.i(TAG, "native call ali qrcode methold");
 
         if (args == null || args.length() == 0) {
-            callback.error("args should not be null or empty");
+            callbackContext.error("args should not be null or empty");
             return;
         }
 
@@ -166,65 +182,75 @@ public class AliPay extends CordovaPlugin {
 //
 //            if (params instanceof String) {
 
-                /**
-                 * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
-                 * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
-                 * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
-                 *
-                 * authInfo的获取必须来自服务端；
-                 */
-                boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-                Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
-                String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
+            /**
+             * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+             * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
+             * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
+             *
+             * authInfo的获取必须来自服务端；
+             */
+            boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+            Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
+            String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
 
-                String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
-                String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
-                final String authInfo = info + "&" + sign;
-                Runnable authRunnable = new Runnable() {
 
-                    @Override
-                    public void run() {
-                        // 构造AuthTask 对象
-                        AuthTask authTask = new AuthTask(cordova.getActivity());
-                        // 调用授权接口，获取授权结果
-                        Map<String, String> result = authTask.authV2(authInfo, true);
+            String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+            String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
+            final String authInfo = info + "&" + sign;
 
-                        Message msg = new Message();
-                        msg.what = SDK_AUTH_FLAG;
-                        msg.obj = result;
-                        mHandler.sendMessage(msg);
+            final AuthResult _authResult = null;
+            Runnable authRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    // 构造AuthTask 对象
+                    AuthTask authTask = new AuthTask(cordova.getActivity());
+                    // 调用授权接口，获取授权结果
+                    Map<String, String> result = authTask.authV2(authInfo, true);
 
-                        //handle auth result send to js
-                        AuthResult authResult = new AuthResult(result, true);
-                        String resultStatus = authResult.getResultStatus();
+                    Message msg = new Message();
+                    msg.what = SDK_AUTH_FLAG;
+                    msg.obj = result;
+                    mHandler.sendMessage(msg);
 
-                        if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
-                            Log.i(TAG,
-                                    " 判断resultStatus 为“9000”且result_code" +
-                                            "为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档 ");
-                            callback.success(authResult.toJson());
-                        } else {
-                            // 其他状态值则为授权失败
-                            Log.i(TAG,
-                                    "其他状态值则为授权失败");
-                            callback.error(authResult.toJson());
-                        }
+                    //handle auth result send to js
+                    AuthResult authResult = new AuthResult(result, true);
+                    String resultStatus = authResult.getResultStatus();
+
+                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                        Log.i(TAG, " 判断resultStatus 为“9000”且result_code" + "为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档 ");
+
+//                        callbackContext.success(authResult.toJson());
+                        sendUpdate(callbackContext,authResult.toJson(),true,PluginResult.Status.OK);
+
+                    } else {
+                        // 其他状态值则为授权失败
+                        Log.i(TAG,
+                                "其他状态值则为授权失败");
+                        callbackContext.error(authResult.toJson());
                     }
-                };
+                }
+            };
 
-                // 必须异步调用
-                Thread authThread = new Thread(authRunnable);
-                authThread.start();
-
-
+            // 必须异步调用
+            Thread authThread = new Thread(authRunnable);
+            authThread.start();
 
 //            }
         } catch (JSONException e) {
-            callback.error("JSONException: " + e.getMessage());
+            callbackContext.error("JSONException: " + e.getMessage());
             e.printStackTrace();
         }
-        callback.error("Expected one non-empty string argument.");
+    }
 
+    private void sendUpdate(CallbackContext context, JSONObject obj, boolean keepCallback, PluginResult.Status status) {
+        if (context != null) {
+            PluginResult result = new PluginResult(status, obj);
+            result.setKeepCallback(keepCallback);
+            context.sendPluginResult(result);
+            if (!keepCallback) {
+                context = null;
+            }
+        }
     }
 
 

@@ -27,7 +27,7 @@
                                         @"biz_type":@"openservice",
                                         @"product_id":@"APP_FAST_LOGIN",
                                         @"scope":@"kuaijie",
-                                        @"target_id":(_targetID?:@"20141225xxxx"),
+                                        @"target_id":(_targetID?:@"20170723xxxx"),
                                         @"auth_type":(_authType?:@"AUTHACCOUNT")}];
     
     

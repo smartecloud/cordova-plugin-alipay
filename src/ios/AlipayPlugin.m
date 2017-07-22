@@ -80,8 +80,8 @@
     //    NSString *appID = @"";
 
     NSString *pid = @"2088911122813842";
-    NSString *appID = @"2017032706431886";//会引擎
-    //    NSString *appID = @"2017072207848552"; //销售会
+//    NSString *appID = @"2017032706431886";//会引擎
+    NSString *appID = @"2017072207848552"; //销售会
 
 
     // 如下私钥，rsa2PrivateKey 或者 rsaPrivateKey 只需要填入一个

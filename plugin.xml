@@ -99,8 +99,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <source-file src="src/ios/AppDelegate+Alipay.m" target-dir="alipay"/>
 
         <!-- util -->
-        <header-file src="src/ios/Util/base64.h" target-dir="Util"/>
-        <source-file src="src/ios/Util/base64.m" target-dir="Util"/>
+        <header-file src="src/ios/Util/AlipayBase64.h" target-dir="Util"/>
+        <source-file src="src/ios/Util/AlipayBase64.m" target-dir="Util"/>
 
         <header-file src="src/ios/Util/config.h" target-dir="Util"/>
 
