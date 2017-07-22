@@ -32,24 +32,18 @@ public class AliPay extends CordovaPlugin {
     /**
      * 支付宝支付业务：入参app_id
      */
-    // public static final String APPID = "2017032706431886";//会引擎
-    public static final String APPID = "2017072207848552";//销售会
+    public static final String APPID = "";
+
 
     /**
      * 支付宝账户登录授权业务：入参pid值
      */
-    public static final String PID = "2088911122813842";
+    public static final String PID = "";
     /**
      * 支付宝账户登录授权业务：入参target_id值
      */
     public static final String TARGET_ID = "20170723xxxx";
-    public static final String RSA2_PRIVATE =
-            "MIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCyO/SYt3rCt9JEOnuavxaNc5vJOvCS+f8BBeGR" +
-                    "/DNy5lrx1Ueg1TFTjYXJXsmB6sy5vhzMFckXYMwxL7E4CUkUjXPWHKgUQMFJtM7BI9BZrr" +
-                    "+x2yQsbwCaxSpBxCGscRsJBKYsBaZkocnkZSfrYNwtbCjYdY" +
-                    "+YI7TpLwz4z9BFkO9WkOTxTg8BLkTqbJLsbSxCOv8lD3GOeLfWgqd" +
-                    "+nM5tXv9WKS4NGSuiMsQe0Jpdh7BATcKuNKbuFKjGYS533HD4JJls8XEtkelgLWwtzzjMNCVE0cfuh" +
-                    "+sP9xwbkhQd8Van175pzItDFYRS2pR0ry8b9gkfmGt3eKB91Q4NivsXAgMBAAECggEAQnFFUnT7p4D9OoAOufZIQvz480AslK3rWQdHOrOovkmPV52pcRRoqfwVBqd2OR89qHRtqcrpRvTHygI8b2ZOvwGoUAYoxjwJkh97/9YJApW5UmUeDA5pTEj54sBpyS305Ry9kaWdjOAfMixfgEiAa9JpO6A/oniVJWRr0okt2/B3Wfg++XR3YdQgRcikuyX+qckyI37VhkWn8FoFtD1y2e0cwVKeyzVDrLkNVCiP0cW3rGScOboZzVFrVMtazbCgsgMsnOehP/qEbR4bSQkjeBSyd/ftEm3Wy1WhEE5k1EasnnO6z/1v4fMkpGt1IQGFP6AgMwA/cDITCuzAxta8mQKBgQDdp/TvMuRZXR9VWPYAFLXZOsiZ8G1Ma1erTRSA6IBzmMraK71al7TECSb+j57VtENsMlt/MpPQCbBzPaY/9mDSJgohOTsACpbT8G/qwJObTUT6J+wSLHT8dFhdV0UJgRDFRz5d2VHaHPNwqKufAB/VciMUdRMyf9m27NocaVesywKBgQDN2ai5K7hMx43cV1RTEp5bJve2xf3Ezq5ZZX/8Cnu39ZNqPu8kJ7xJ/Fp+/rfXOb+6rijUQA39Ai3x1z+yxyZdBQJfeNDV7EELXCktplC0AFeEl5tVT3NfrfFKYgS0/xuYJSan6lRnqMSnpYep+VDNLT3JKHeYjCMzaIOzqliNZQJ/I3/CuoxsBePkIMcenuSyOxgvCHh5CMQoRkcSAZM6/0h5NHfM27VwPfU5SYu25IL6SVnHTZfMFIV4vPwipBvRZdaxyKBh0p/fiBH52p79BOJbKbU7Ga4FDmmTvV88r0j8ZpwCYQVtFoGMe36H/e8HKigddilJ6cyQEbvdMq+sWwKBgFN7G/PMiTeKDjv3ppjyCgqJaRhUfy/badWTVi4OylG2ZAxIbY9KFhAjKUgrYL8GCn1Yt/Ir8ABVa/CSDKEiJqq+p1G0m2zGHTLQM1ryAfSd1uBM44/bYrzAvAQgcCw+8R/ooR6j54sKZIZgmP4Tv/MVj+MOaEITQwtMLW0lfjgJAoGAJQUnnipAd4j6w9wN4z5T2822LpP9vZvCJkLm8IR6Jl7KcrGRkHw+z3VRBa54wyGxxhTRv50irqbcoqtf/ovL9dChoqIJTChf8RZUiz+ZZYiabuwg6M5BVC9O0JAJds1VnStU3gC6gvNpDwaAvHVJoHoxB0DNbT1dyBKT7In+5KA=";
+    public static final String RSA2_PRIVATE ="";
     public static final String RSA_PRIVATE = "";
 
     private Handler mHandler = new Handler() {
