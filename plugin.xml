@@ -33,9 +33,17 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </activity>
         <!-- alipay sdk end -->
         </config-file>
-        <source-file src="src/android/libs/alipaySdk-20160825.jar" target-dir="libs"/>
-        <source-file src="src/android/AliPay.java" target-dir="src/com/offbye/cordova/alipay" />
-        <source-file src="src/android/PayResult.java" target-dir="src/com/offbye/cordova/alipay" />
+        <source-file src="src/android/libs/alipaySdk-20170710.jar" target-dir="libs"/>
+        <source-file src="src/android/AliPay.java" target-dir="src/cordova/plugin/alipay" />
+        <source-file src="src/android/PayResult.java" target-dir="src/cordova/plugin/alipay" />
+        <source-file src="src/android/AuthResult.java" target-dir="src/cordova/plugin/alipay" />
+
+        <!-- utils -->
+        <source-file src="src/android/utils/Base64.java" target-dir="src/cordova/plugin/alipay/utils" />
+        <source-file src="src/android/utils/OrderInfoUtil2_0.java" target-dir="src/cordova/plugin/alipay/utils" />
+        <source-file src="src/android/utils/SignUtils.java" target-dir="src/cordova/plugin/alipay/utils" />
+
+
     </platform>
     <platform name="ios">
         <config-file target="config.xml" parent="/widget">
@@ -59,6 +67,14 @@ xmlns:android="http://schemas.android.com/apk/res/android"
           </array>
         </config-file>
 
+
+<!-- <preference name="ios-XCBuildConfiguration-IPHONEOS_DEPLOYMENT_TARGET" value="7.0" buildType="release" /> -->
+
+        <!-- <preference name="ios-XCBuildConfiguration-HEADER_SEARCH_PATHS" value="'$(TARGET_BUILD_DIR)/usr/local/lib/include' '$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include' '$(BUILT_PRODUCTS_DIR)','$(SRCROOT)/$(TARGET_NAME)'" buildType="debug" xcconfigEnforce="true" />
+
+        <preference name="ios-XCBuildConfiguration-HEADER_SEARCH_PATHS" value="'$(TARGET_BUILD_DIR)/usr/local/lib/include' '$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include' '$(BUILT_PRODUCTS_DIR)','$(SRCROOT)/$(TARGET_NAME)'" buildType="release" xcconfigEnforce="true" /> -->
+
+
         <framework src="CoreTelephony.framework" weak="true" />
         <framework src="Security.framework" weak="true" />
         <framework src="SystemConfiguration.framework" weak="true" />
@@ -69,8 +85,113 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="src/ios/lib/AlipaySDK.framework" custom="true" />
         <resource-file src="src/ios/lib/AlipaySDK.bundle"/>
 
-        <header-file src="src/ios/AlipayPlugin.h"/>
-        <source-file src="src/ios/AlipayPlugin.m"/>
+        <framework src="src/ios/lib/libcrypto.a" custom="true" />
+        <framework src="src/ios/lib/libssl.a" custom="true" />
+
+
+        <header-file src="src/ios/AlipayPlugin.h" target-dir="alipay"/>
+        <source-file src="src/ios/AlipayPlugin.m" target-dir="alipay"/>
+
+        <header-file src="src/ios/APAuthV2Info.h" target-dir="alipay"/>
+        <source-file src="src/ios/APAuthV2Info.m" target-dir="alipay"/>
+
+        <header-file src="src/ios/AppDelegate+Alipay.h" target-dir="alipay"/>
+        <source-file src="src/ios/AppDelegate+Alipay.m" target-dir="alipay"/>
+
+        <!-- util -->
+        <header-file src="src/ios/Util/base64.h" target-dir="Util"/>
+        <source-file src="src/ios/Util/base64.m" target-dir="Util"/>
+
+        <header-file src="src/ios/Util/config.h" target-dir="Util"/>
+
+        <header-file src="src/ios/Util/NSDataEx.h" target-dir="Util"/>
+        <source-file src="src/ios/Util/NSDataEx.m" target-dir="Util"/>
+
+        <header-file src="src/ios/Util/openssl_wrapper.h" target-dir="Util"/>
+        <source-file src="src/ios/Util/openssl_wrapper.m" target-dir="Util"/>
+
+        <header-file src="src/ios/Util/RSADataSigner.h" target-dir="Util"/>
+        <source-file src="src/ios/Util/RSADataSigner.m" target-dir="Util"/>
+
+        <header-file src="src/ios/Util/RSADataVerifier.h" target-dir="Util"/>
+        <source-file src="src/ios/Util/RSADataVerifier.m" target-dir="Util"/>
+
+        <!-- openssl -->
+        <header-file src="src/ios/openssl/aes.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/asn1_mac.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/asn1.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/asn1t.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/bio.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/blowfish.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/bn.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/buffer.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/camellia.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/cast.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/cmac.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/cms.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/comp.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/conf_api.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/conf.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/crypto.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/des_old.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/des.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/dh.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/dsa.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/dso.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/dtls1.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/e_os2.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ebcdic.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ec.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ecdh.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ecdsa.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/engine.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/err.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/evp.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/hmac.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/idea.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/krb5_asn.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/kssl.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/lhash.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/md4.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/md5.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/mdc2.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/modes.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/obj_mac.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/objects.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ocsp.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/opensslconf.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/opensslv.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ossl_typ.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/pem.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/pem2.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/pkcs7.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/pkcs12.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/pqueue.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/rand.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/rc2.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/rc4.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ripemd.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/rsa.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/safestack.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/seed.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/sha.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/srp.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/srtp.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ssl.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ssl2.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ssl3.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ssl23.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/stack.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/symhacks.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/tls1.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ts.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/txt_db.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ui_compat.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/ui.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/whrlpool.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/x509_vfy.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/x509.h" target-dir="openssl"/>
+        <header-file src="src/ios/openssl/x509v3.h" target-dir="openssl"/>
 
     </platform>
 </plugin>
