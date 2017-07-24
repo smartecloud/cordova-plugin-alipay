@@ -4,8 +4,8 @@ Makes your Cordova application enable to use the [Alipay SDK](https://doc.open.a
 for mobile payment with Alipay App or Mobile Web. Requires cordova-android 4.0 or greater.
 
 ### ChangeLogs
-  本cordova插件是基于支付宝App支付SDK的Demo实现
- - 升级支付宝SDK版本到20160825；
+  本cordova插件是基于支付宝App支付SDK的Demo实现，主要优化授权登录功能，APP支付功能暂没优化
+ - 升级支付宝SDK版本到20170710；
  - 修改了一些bug;
  - 支持Android和iOS Alipay SDK
 ###主要功能
@@ -30,7 +30,7 @@ The following directions are for cordova-cli (most people).
 
 		Android IOS
 		
-		配置ios端：
+    配置ios端：
 
 	1.启动IDE（如Xcode），plugin下 libs的库，并导入到项目工程中。
 	  AlipaySDK.bundle
@@ -68,10 +68,8 @@ The following directions are for cordova-cli (most people).
 	修改Keys 中的PARTNER  SELLER  RSA_PRIVATE
 	
 	
-最后：
-	调用方法请参看插件目录下www/index.js 中的testAlipay方法
-	
-	
+最后：调用方法请参看插件目录下www/index.js 中的testAlipay方法
+
 如果想删除插件，Android端的只需要运行cordova命令就可以了，ios端的除了运行cordova命令，还需要按照安装时的步奏，手动删除库、文件以及代码
 	
 
